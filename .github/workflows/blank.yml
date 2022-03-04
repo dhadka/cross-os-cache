@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: work/
+          key: foo-${{ github.run_id }}
+      - run: |
+          mkdir work
+          echo "Hello World!" > work/foo.txt
+  windows:
+    runs-on: windows-latest
+    needs: linux
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: work/
+          key: foo-${{ github.run_id }}
+      - run: |
+          dir work
+          echo "Hello World!" > work/foo.txt
