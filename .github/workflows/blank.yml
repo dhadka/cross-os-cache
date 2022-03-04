@@ -24,6 +24,10 @@ jobs:
     needs: linux
     steps:
       - uses: actions/checkout@v2
+      - name: Use GNU Tar from Msys
+        if: ${{ runner.os == 'Windows' }}
+        run: |
+          echo "::add-path::C:\msys64\usr\bin"
       - uses: actions/cache@v2
         with:
           path: work/
